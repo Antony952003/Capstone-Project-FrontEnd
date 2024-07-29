@@ -1,14 +1,19 @@
 .approval-requests {
   padding: 20px;
+  padding-top: 0px;
+  overflow-x: auto;
+  height: 100%;
   background-color: #f9f9f9;
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .approval-requests h2 {
-  margin-bottom: 20px;
   color: #333;
   font-size: 24px;
+  position: relative;
+  top: 40px;
+  text-align: center;
 }
 
 .approval-table {
@@ -106,8 +111,12 @@
   max-width: 200px; /* Adjust this value as needed */
 }
 .filter-container {
+  display: flex;
+  justify-content: flex-end;
   margin-bottom: 20px;
   position: relative;
+  right: 0;
+  z-index: 0;
 }
 
 #filter {
@@ -177,4 +186,18 @@ td svg {
   justify-content: center;
   margin-top: 10px;
   gap: 2rem;
+}
+
+@media screen and (max-width: 650px) {
+  td,
+  th {
+    font-size: 10px !important;
+  }
+  .approval-requests h2 {
+    font-size: 20px;
+  }
+  #filter {
+    padding: 2px 5px;
+    font-size: 10px;
+  }
 }

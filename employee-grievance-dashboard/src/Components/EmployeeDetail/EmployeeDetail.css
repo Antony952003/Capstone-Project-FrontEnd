@@ -1,0 +1,221 @@
+/* General Styles */
+body {
+  font-family: "Arial", sans-serif;
+  background-color: #f4f4f9;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+.employee-detail {
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 700px;
+  margin: 40px auto;
+}
+
+.employee-detail h2 {
+  margin-bottom: 30px;
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  text-align: center;
+}
+
+.employee-detail p {
+  margin: 15px 0;
+  font-size: 18px;
+  color: #555;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.employee-detail .role-assignment {
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.employee-detail .role-assignment label {
+  margin-right: 10px;
+  font-size: 16px;
+  color: #333;
+}
+
+.employee-detail button {
+  padding: 6px 20px;
+  margin-right: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s, opacity 0.3s;
+}
+
+.employee-detail button.delete-button {
+  background-color: #dc3545;
+}
+
+.employee-detail button.disapprove-button {
+  background-color: #ffc107;
+}
+
+.employee-detail button:hover {
+  opacity: 0.8;
+}
+
+/* Aligning employee details */
+.employee-detail .detail-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.employee-detail .detail-item:last-child {
+  border-bottom: none;
+}
+
+.employee-detail .detail-label {
+  font-weight: 600;
+  color: #333;
+}
+
+.employee-detail .detail-value {
+  color: #555;
+  text-align: right;
+}
+.role-assignment select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+}
+
+.approve-btns {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.modal-buttons {
+  margin-top: 20px;
+}
+
+.modal-buttons button {
+  margin-right: 10px;
+}
+
+.user-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 10px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.user-icon {
+  width: 100%;
+  height: 100%;
+}
+.user-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 0px 0px;
+  border-radius: 50%;
+}
+
+.go-back {
+  margin-top: 20px;
+}
+.go-back-button {
+  background-color: #555 !important;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.confirmation-dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border: 1px solid #ccc;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  body {
+    opacity: 0.2;
+  }
+}
+
+.confirmation-dialog button {
+  margin: 5px;
+}
+
+.Toastify__close-button--light {
+  padding: 0px 10px !important;
+}
+
+.btns-firstrow {
+  display: flex;
+  gap: 1.5rem;
+  margin: 10px 0px;
+  justify-content: center;
+}
+
+.btns-secondrow {
+  display: flex;
+  gap: 1.5rem;
+  margin: 5px 0px;
+  justify-content: center;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999; /* Ensure the overlay is on top of all other content */
+}
+
+.newgrievance-select {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border-radius: 10px;
+  border: 1px solid lightgrey;
+  margin-bottom: 10px;
+}
+
+.newgrievance-select select {
+  padding: 5px;
+  border-radius: 8px;
+  outline: none;
+}
+
+.approve-button {
+  background-color: green !important;
+}
+
+.reject-button {
+  background-color: #dc3545 !important;
+}

@@ -27,7 +27,7 @@ function Navbar({ onChangeView }) {
         {auth?.user.userImage == "string" ? (
           <FaCircleUser className="user-icon" />
         ) : (
-          <div className="userimage user-icon">
+          <div className="userimage user-icon-navbar">
             <img src={auth?.user.userImage} alt="" />
           </div>
         )}

@@ -15,6 +15,8 @@
   height: 72px;
   border-bottom: 1px solid lightgrey;
   border-radius: 10px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
   position: sticky;
   background-color: white;
 }
@@ -47,7 +49,7 @@
   border-style: solid;
 }
 
-.user-icon {
+.user-icon-navbar {
   cursor: pointer;
 }
 
@@ -60,6 +62,7 @@
   border-bottom-right-radius: 10px;
   height: 100%;
   padding-bottom: 75px;
+  transition: transform 0.3s ease-in-out;
 }
 
 #dashboard-head {
@@ -106,7 +109,7 @@ li:hover {
 
 .userimage img {
   object-fit: cover;
-  object-position: center;
+  object-position: 0px 0px;
   width: 100%;
   height: 100%;
   border-radius: 20px;
@@ -116,7 +119,6 @@ li:hover {
   display: flex;
   flex-direction: row;
   gap: 1rem;
-  min-height: calc(87vh); /* Adjusting for navbar height */
 }
 
 .content-container {
@@ -124,4 +126,97 @@ li:hover {
   padding: 20px;
   border: 1px solid lightgrey;
   border-radius: 10px;
+}
+
+.forhover:hover {
+  content: "";
+}
+
+.sidebar-container.active {
+  transform: translateX(0);
+}
+
+.sidebar-toggle {
+  display: none;
+  position: fixed;
+  top: 74px;
+  left: 0px;
+  padding-bottom: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 1000; /* Ensure it stays above content */
+}
+
+@media screen and (max-width: 950px) {
+  .sidebar-container {
+    position: fixed;
+    transform: translateX(-200px);
+    top: 74px;
+    left: 0;
+  }
+  .nav-head {
+    font-size: 25px;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .nav-right {
+    display: none;
+  }
+  .nav-head {
+    font-size: 22px;
+  }
+  .navbar {
+    display: block;
+    text-align: center;
+  }
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 950px) {
+  .sidebar-container {
+    min-width: 200px;
+  }
+
+  #dashboard-head {
+    font-size: 12px;
+  }
+  .sidebar-container.active {
+    transform: translateX(0);
+    z-index: 99;
+  }
+  .sidebar-container li {
+    font-size: 14px;
+  }
+
+  .sidebar-toggle {
+    display: flex;
+    padding-top: 10px;
+    padding-left: 10px;
+    font-size: 25px;
+    left: 185px;
+    top: 45px;
+    z-index: 99999;
+    background-color: rgb(0, 6, 66);
+    align-items: center;
+    justify-content: center; /* Show menu button on small screens */
+  }
+
+  .content-container {
+    margin-left: 0; /* Adjust content margin when sidebar is hidden */
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .sidebar-container li {
+    font-size: 15px;
+  }
+  #dashboard-head {
+    font-size: 18px;
+  }
 }

@@ -1,11 +1,14 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { format } from "date-fns";
 import "./Employee.css";
 
 const Employees = () => {
   const { auth } = useContext(AuthContext);
   const [employees, setEmployees] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchEmployees = async () => {
@@ -18,7 +21,6 @@ const Employees = () => {
             },
           }
         );
-        console.log(response.data);
         setEmployees(response.data);
       } catch (error) {
         console.error(
@@ -32,6 +34,14 @@ const Employees = () => {
       fetchEmployees();
     }
   }, [auth]);
+
+  const formatDate = (dateString) => {
+    return format(new Date(dateString), "yyyy-MM-dd");
+  };
+
+  const handleRowClick = (employeeId) => {
+    navigate(`/employees/${employeeId}`);
+  };
 
   return (
     <div className="employees content-container">
@@ -48,12 +58,15 @@ const Employees = () => {
         </thead>
         <tbody>
           {employees.map((employee) => (
-            <tr key={employee.userId}>
+            <tr
+              key={employee.userId}
+              onClick={() => handleRowClick(employee.userId)}
+            >
               <td>{employee.userId}</td>
               <td>{employee.name}</td>
               <td>{employee.email}</td>
               <td>{employee.role}</td>
-              <td>{employee.dob}</td>
+              <td>{formatDate(employee.dob)}</td>
             </tr>
           ))}
         </tbody>

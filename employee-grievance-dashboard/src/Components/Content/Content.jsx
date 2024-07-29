@@ -5,9 +5,9 @@ function Content() {
   const { auth } = useContext(AuthContext);
   return (
     <div className="content-container">
-      <h1>
+      <h4>
         Welcome {auth?.user.role} {auth?.user.name}
-      </h1>
+      </h4>
     </div>
   );
 }
