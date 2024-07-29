@@ -1,0 +1,19 @@
+.employees {
+  margin: 20px;
+}
+
+.employees-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.employees-table th,
+.employees-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.employees-table th {
+  background-color: #f2f2f2;
+  text-align: left;
+}

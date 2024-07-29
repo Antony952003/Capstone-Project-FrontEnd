@@ -1,0 +1,180 @@
+.approval-requests {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.approval-requests h2 {
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 24px;
+}
+
+.approval-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.approval-table th,
+.approval-table td {
+  cursor: pointer;
+  border-bottom: 1px solid #ddd;
+  padding: 12px 15px;
+  text-align: left;
+}
+
+.approval-table th {
+  background-color: #007bff;
+  color: white;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.approval-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.approval-table tr:hover {
+  background-color: #e0e0e0;
+}
+
+.approval-table td {
+  color: #555;
+  font-size: 16px;
+}
+
+.approval-table th:first-child,
+.approval-table td:first-child {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.approval-table th:last-child,
+.approval-table td:last-child {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.approval-table button {
+  padding: 5px 10px;
+  margin: 0 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.approve-button {
+  background-color: #28a745;
+  color: white;
+  padding: 5px 10px;
+  margin: 0 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+.approve-button:hover {
+  background-color: #004f13;
+}
+
+.reject-button {
+  background-color: #dc3545;
+  color: white;
+  padding: 5px 10px;
+  margin: 0 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.reject-button:hover {
+  background-color: #5d010a;
+}
+
+/* Ellipsis effect for lengthy text */
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px; /* Adjust this value as needed */
+}
+.filter-container {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+#filter {
+  padding: 6px 10px;
+  border-radius: 7px;
+  outline: none;
+  cursor: pointer;
+}
+
+#filter option {
+  background-color: #ede9e9;
+  cursor: pointer !important;
+}
+
+/* Modal styles */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  max-width: 80%;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.modal-close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.approved {
+  color: #28a745 !important;
+  font-weight: 600;
+}
+
+.rejected {
+  color: #dc3545 !important;
+  font-weight: 600;
+}
+
+td svg {
+  position: relative;
+  top: 3px;
+  left: 4px;
+}
+
+.popup-btns {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  gap: 2rem;
+}
