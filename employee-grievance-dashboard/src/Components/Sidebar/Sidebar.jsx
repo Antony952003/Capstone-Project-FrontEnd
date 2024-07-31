@@ -20,13 +20,19 @@ function Sidebar({ onChangeView }) {
         </button>
         <p id="dashboard-head">DASHBOARD</p>
         <ul>
-          <li onClick={() => onChangeView("approvalRequests")}>
+          <li
+            onClick={() => {
+              onChangeView("approvalRequests");
+            }}
+          >
             Approval Requests
           </li>
           <li onClick={() => onChangeView("employees")}>View All Employees</li>
           <li onClick={() => onChangeView("solvers")}>View All Solvers</li>
           <li onClick={() => onChangeView("grievances")}>Grievances</li>
-          <li>Edit Profile</li>
+          <li onClick={() => navigate(`/editprofile/${auth.user.userId}`)}>
+            Edit Profile
+          </li>
         </ul>
       </div>
     </>

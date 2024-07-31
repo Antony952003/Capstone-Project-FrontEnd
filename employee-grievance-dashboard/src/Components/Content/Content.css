@@ -1,0 +1,43 @@
+.piechart-container {
+  width: fit-content;
+  padding: 20px;
+  height: fit-content;
+  border: 1px solid darkgrey;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Cairo" !important;
+  border-radius: 10px;
+  background-color: rgb(227, 238, 242);
+  animation: slideInFromLeft10 1s ease-in-out;
+}
+
+@keyframes slideInFromLeft10 {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.homepage-head {
+  font-size: 29px;
+  text-align: center;
+  padding: 20px;
+  color: #f9f9f9;
+  background-color: var(--blue);
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.piechart-head {
+  font-size: 20px;
+  font-weight: 400;
+}
+.grievance-piechart {
+  width: 250px !important;
+  height: 240px !important;
+}

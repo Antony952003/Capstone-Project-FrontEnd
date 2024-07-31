@@ -5,6 +5,9 @@ import { format } from "date-fns";
 import Modal from "../Modal/Modal";
 import "./ApprovalRequest.css";
 import { IoTimeOutline } from "react-icons/io5";
+import apiClient from "../../ApiClient/apiClient";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const ApprovalRequests = () => {
   const { auth } = useContext(AuthContext);
@@ -20,11 +23,11 @@ const ApprovalRequests = () => {
   useEffect(() => {
     const fetchApprovalRequests = async () => {
       try {
-        const response = await axios.get(
+        const response = await apiClient.get(
           "http://localhost:7091/api/ApprovalRequest/GetAllApprovalRequests",
           {
             headers: {
-              Authorization: `Bearer ${auth.token}`,
+              Authorization: `Bearer ${auth.accessToken}`,
             },
           }
         );
@@ -90,7 +93,7 @@ const ApprovalRequests = () => {
         {},
         {
           headers: {
-            Authorization: `Bearer ${auth.token}`,
+            Authorization: `Bearer ${auth.accessToken}`,
           },
         }
       );
@@ -123,8 +126,8 @@ const ApprovalRequests = () => {
 
   return (
     <div className="approval-requests content-container">
-      <h2>Approval Requests</h2>
-      <div className="filter-container">
+      <h2 data-aos="fade-down">Approval Requests</h2>
+      <div data-aos="fade-left" className="filter-container">
         <label htmlFor="filter"></label>
         <select id="filter" value={filter} onChange={handleFilterChange}>
           <option value="all">All</option>
@@ -133,7 +136,7 @@ const ApprovalRequests = () => {
           <option value="rejected">Rejected</option>
         </select>
       </div>
-      <table className="approval-table">
+      <table className="approval-table" data-aos="fade-right">
         <thead>
           <tr>
             <th>ID</th>

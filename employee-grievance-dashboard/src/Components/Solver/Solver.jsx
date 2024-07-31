@@ -4,6 +4,9 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 import "../Employee/Employee.css";
+import apiClient from "../../ApiClient/apiClient";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const Solvers = () => {
   const { auth } = useContext(AuthContext);
@@ -14,11 +17,11 @@ const Solvers = () => {
   useEffect(() => {
     const fetchSolvers = async () => {
       try {
-        const response = await axios.get(
+        const response = await apiClient.get(
           "http://localhost:7091/api/Admin/GetAllSolvers",
           {
             headers: {
-              Authorization: `Bearer ${auth.token}`,
+              Authorization: `Bearer ${auth.accessToken}`,
             },
           }
         );
@@ -63,8 +66,8 @@ const Solvers = () => {
 
   return (
     <div className="employees content-container">
-      <h2>All Solvers</h2>
-      <table className="employees-table">
+      <h2 data-aos="fade-down">All Solvers</h2>
+      <table className="employees-table" data-aos="fade-right">
         <thead>
           <tr>
             <th>ID</th>

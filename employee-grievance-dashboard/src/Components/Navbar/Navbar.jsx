@@ -4,13 +4,20 @@ import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-function Navbar({ onChangeView }) {
-  const { auth, logout } = useContext(AuthContext);
+function Navbar() {
+  const { auth, logout, currentView, setCurrentView } = useContext(AuthContext);
+
   const navigate = useNavigate();
 
   return (
     <nav className="navbar">
-      <div className="nav-left" onClick={() => onChangeView("content")}>
+      <div
+        className="nav-left"
+        onClick={() => {
+          setCurrentView("content");
+          navigate("/dashboard");
+        }}
+      >
         <h2 className="nav-head">
           <span className="colored">S</span>olution{" "}
           <span className="colored">S</span>

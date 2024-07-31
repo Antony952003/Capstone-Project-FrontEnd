@@ -8,6 +8,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../EmployeeDetail/EmployeeDetail.css";
+import apiClient from "../../ApiClient/apiClient";
 
 const SolverDetail = () => {
   const { auth } = useContext(AuthContext);
@@ -28,11 +29,11 @@ const SolverDetail = () => {
   useEffect(() => {
     const fetchSolver = async () => {
       try {
-        const response = await axios.get(
+        const response = await apiClient.get(
           `http://localhost:7091/api/Admin/GetSolverById?id=${id}`,
           {
             headers: {
-              Authorization: `Bearer ${auth.token}`,
+              Authorization: `Bearer ${auth.accessToken}`,
             },
           }
         );
@@ -104,12 +105,12 @@ const SolverDetail = () => {
   const confirmAction = async () => {
     if (actionToConfirm === "delete") {
       try {
-        await axios.post(
+        await apiClient.post(
           `http://localhost:7091/api/Admin/DeleteUserById?id=${id}`,
           {},
           {
             headers: {
-              Authorization: `Bearer ${auth.token}`,
+              Authorization: `Bearer ${auth.accessToken}`,
             },
           }
         );
@@ -126,12 +127,12 @@ const SolverDetail = () => {
       setShowConfirmDelete(false);
     } else if (actionToConfirm === "disapprove") {
       try {
-        await axios.post(
+        await apiClient.post(
           `http://localhost:7091/api/Admin/DisApproveUserById?id=${id}`,
           {},
           {
             headers: {
-              Authorization: `Bearer ${auth.token}`,
+              Authorization: `Bearer ${auth.accessToken}`,
             },
           }
         );
@@ -146,7 +147,7 @@ const SolverDetail = () => {
       setShowConfirmDisapprove(false);
     } else if (actionToConfirm === "assignRole") {
       try {
-        await axios.post(
+        await apiClient.post(
           `http://localhost:7091/api/Admin/AssignRoleToUser`,
           {
             userId: id,
@@ -155,7 +156,7 @@ const SolverDetail = () => {
           },
           {
             headers: {
-              Authorization: `Bearer ${auth.token}`,
+              Authorization: `Bearer ${auth.accessToken}`,
             },
           }
         );
@@ -173,12 +174,12 @@ const SolverDetail = () => {
       setShowConfirmAssignRole(false);
     } else if (actionToConfirm === "changeDepartment") {
       try {
-        await axios.put(
+        await apiClient.put(
           `http://localhost:7091/api/Admin/ChangeDepartmentBySolverId?solverid=${id}&departmenttype=${newGrievanceType}`,
           {},
           {
             headers: {
-              Authorization: `Bearer ${auth.token}`,
+              Authorization: `Bearer ${auth.accessToken}`,
             },
           }
         );

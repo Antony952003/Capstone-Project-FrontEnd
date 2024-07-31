@@ -1,3 +1,7 @@
+:root {
+  --blue: #007bff;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -5,6 +9,7 @@
 }
 .nav-head {
   font-size: 29px;
+  font-weight: 500;
 }
 
 .navbar {
@@ -30,6 +35,7 @@
   align-items: center;
   gap: 1.2rem;
   font-size: 28px;
+  animation: slideInFromRight 0.5s ease-out;
 }
 
 .btn {
@@ -54,7 +60,6 @@
 }
 
 .sidebar-container {
-  padding-top: 10px;
   min-width: 280px;
   background-color: rgb(0, 6, 66);
   color: #ffff;
@@ -67,7 +72,7 @@
 
 #dashboard-head {
   font-size: 20px;
-  font-weight: 500;
+  font-weight: 200;
   letter-spacing: 7px;
   margin-top: 10px;
   margin-bottom: 45px;
@@ -82,6 +87,7 @@ ul {
   list-style: none;
   gap: 1.5rem;
   height: 100%;
+  animation: slideInFromLeft 0.5s ease-out;
 }
 li {
   font-size: 18px;
@@ -155,7 +161,7 @@ li:hover {
 @media screen and (max-width: 950px) {
   .sidebar-container {
     position: fixed;
-    transform: translateX(-200px);
+    transform: translateX(-260px);
     top: 74px;
     left: 0;
   }
@@ -180,7 +186,7 @@ li:hover {
 /* Responsive Styles */
 @media screen and (max-width: 950px) {
   .sidebar-container {
-    min-width: 200px;
+    min-width: 260px;
   }
 
   #dashboard-head {
@@ -198,8 +204,10 @@ li:hover {
     display: flex;
     padding-top: 10px;
     padding-left: 10px;
+    width: 50px;
+    height: 50px;
     font-size: 25px;
-    left: 185px;
+    left: 238px;
     top: 45px;
     z-index: 99999;
     background-color: rgb(0, 6, 66);

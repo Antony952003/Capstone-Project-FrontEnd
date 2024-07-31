@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { PacmanLoader, MoonLoader } from "react-spinners";
+import { ToastContainer, toast } from "react-toastify";
 
 const validationSchema = Yup.object({
   email: Yup.string().email("Invalid email address").required("Required"),
@@ -47,8 +48,12 @@ const Login = () => {
               initialValues={{ email: "", password: "" }}
               validationSchema={validationSchema}
               onSubmit={async (values) => {
-                await login(values.email, values.password);
-                navigate("/dashboard");
+                const response = await login(values.email, values.password);
+                {
+                  response === "Login failed" &&
+                    toast.error("Usermail or Password is incorrect !!");
+                }
+                // navigate("/dashboard");
               }}
             >
               <Form>
@@ -84,6 +89,7 @@ const Login = () => {
           </div>
         </>
       )}
+      <ToastContainer />
     </div>
   );
 };

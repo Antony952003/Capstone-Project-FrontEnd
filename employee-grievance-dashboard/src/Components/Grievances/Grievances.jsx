@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import "./Grievances.css";
 import GrievanceCard from "./GrievanceCard";
+import apiClient from "../../ApiClient/apiClient";
 
 function Grievances() {
   const [grievances, setGrievances] = useState([]);
@@ -22,14 +23,12 @@ function Grievances() {
 
   const fetchAllGrievances = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:7091/api/Grievance/GetAllGrievances`,
-        {
-          headers: {
-            Authorization: `Bearer ${auth.token}`,
-          },
-        }
-      );
+      const response = await apiClient.get(`/Grievance/GetAllGrievances`, {
+        headers: {
+          Authorization: `Bearer ${auth.accessToken}`,
+        },
+      });
+      console.log(response.data);
       setGrievances(response.data);
     } catch (error) {
       console.error(
@@ -98,21 +97,29 @@ function Grievances() {
       <div className="risk-legend">
         <div className="low-l">
           <span> </span>
-          <p>Low Risk</p>
+          <p>Low Priority</p>
         </div>
         <div className="moderate-l">
           <span> </span>
-          <p>Moderate Risk</p>
+          <p>Moderate Priority</p>
         </div>
         <div className="high-l">
           <span> </span>
-          <p>High Risk</p>
+          <p>High Priority</p>
         </div>
       </div>
       <div className="grievance-container">
-        {filteredGrievances.map((grievance) => (
-          <GrievanceCard key={grievance.grievanceId} grievance={grievance} />
-        ))}
+        {filteredGrievances.length > 0 ? (
+          filteredGrievances.map((grievance, index) => (
+            <GrievanceCard
+              key={grievance.grievanceId}
+              grievance={grievance}
+              index={index}
+            />
+          ))
+        ) : (
+          <p className="nogrievances">No Grievances For Applied Filter !!</p>
+        )}
       </div>
     </div>
   );

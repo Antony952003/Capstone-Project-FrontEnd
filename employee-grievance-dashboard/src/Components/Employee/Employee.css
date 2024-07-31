@@ -1,7 +1,11 @@
 .employees {
   background-color: #f9f9f9;
-  height: 100%;
-  overflow-x: auto;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.employees::-webkit-scrollbar {
+  display: none;
 }
 .employees h2 {
   font-size: 25px;
@@ -13,6 +17,7 @@
   border-collapse: collapse;
   background-color: #fff;
   border-radius: 10px;
+  font-size: 15px;
   overflow: hidden;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
@@ -22,8 +27,11 @@
   cursor: pointer;
   border-bottom: 1px solid #ddd;
   padding: 12px 15px;
-  text-align: left;
-  min-width: 100px;
+  text-align: justify;
+  min-width: 80px;
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .employees-table th {

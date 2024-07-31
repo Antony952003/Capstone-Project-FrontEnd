@@ -1,6 +1,8 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
-function GrievanceCard({ grievance }) {
+function GrievanceCard({ grievance, index }) {
+  const navigate = useNavigate();
   function formatDate(dateString) {
     const months = [
       "Jan",
@@ -37,9 +39,11 @@ function GrievanceCard({ grievance }) {
   }
   return (
     <div
+      onClick={() => navigate(`/grievances/${grievance.grievanceId}`)}
       className={`card-container animated ${
         grievance.priority === "High" && "high"
       }
+      ${index % 2 == 0 ? "left" : "right"}
       ${grievance.priority === "Low" && "low"}
       ${grievance.priority === "Moderate" && "moderate"}`}
     >

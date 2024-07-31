@@ -8,6 +8,7 @@ import { FaCircleUser } from "react-icons/fa6";
 import { IoIosArrowBack } from "react-icons/io";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import apiClient from "../../ApiClient/apiClient";
 
 const EmployeeDetail = () => {
   const { auth } = useContext(AuthContext);
@@ -25,11 +26,11 @@ const EmployeeDetail = () => {
   useEffect(() => {
     const fetchEmployee = async () => {
       try {
-        const response = await axios.get(
+        const response = await apiClient.get(
           `http://localhost:7091/api/Admin/GetEmployeeById?employeeid=${id}`,
           {
             headers: {
-              Authorization: `Bearer ${auth.token}`,
+              Authorization: `Bearer ${auth.accessToken}`,
             },
           }
         );
@@ -96,12 +97,12 @@ const EmployeeDetail = () => {
   const confirmAction = async () => {
     if (actionToConfirm === "delete") {
       try {
-        await axios.post(
+        await apiClient.post(
           `http://localhost:7091/api/Admin/DeleteUserById?id=${id}`,
           {},
           {
             headers: {
-              Authorization: `Bearer ${auth.token}`,
+              Authorization: `Bearer ${auth.accessToken}`,
             },
           }
         );
@@ -118,12 +119,12 @@ const EmployeeDetail = () => {
       setShowConfirmDelete(false);
     } else if (actionToConfirm === "disapprove") {
       try {
-        await axios.post(
+        await apiClient.post(
           `http://localhost:7091/api/Admin/DisApproveUserById?id=${id}`,
           {},
           {
             headers: {
-              Authorization: `Bearer ${auth.token}`,
+              Authorization: `Bearer ${auth.accessToken}`,
             },
           }
         );
@@ -138,7 +139,7 @@ const EmployeeDetail = () => {
       setShowConfirmDisapprove(false);
     } else if (actionToConfirm === "assignRole") {
       try {
-        await axios.post(
+        await apiClient.post(
           `http://localhost:7091/api/Admin/AssignRoleToUser`,
           {
             userId: id,
@@ -147,7 +148,7 @@ const EmployeeDetail = () => {
           },
           {
             headers: {
-              Authorization: `Bearer ${auth.token}`,
+              Authorization: `Bearer ${auth.accessToken}`,
             },
           }
         );

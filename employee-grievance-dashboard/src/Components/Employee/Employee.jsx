@@ -4,6 +4,9 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 import "./Employee.css";
+import apiClient from "../../ApiClient/apiClient";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const Employees = () => {
   const { auth } = useContext(AuthContext);
@@ -13,11 +16,11 @@ const Employees = () => {
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const response = await axios.get(
+        const response = await apiClient.get(
           "http://localhost:7091/api/Admin/GetAllEmployees",
           {
             headers: {
-              Authorization: `Bearer ${auth.token}`,
+              Authorization: `Bearer ${auth.accessToken}`,
             },
           }
         );
@@ -45,8 +48,8 @@ const Employees = () => {
 
   return (
     <div className="employees content-container">
-      <h2>All Employees</h2>
-      <table className="employees-table">
+      <h2 data-aos="fade-down">All Employees</h2>
+      <table data-aos="fade-right" className="employees-table">
         <thead>
           <tr>
             <th>ID</th>

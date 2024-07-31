@@ -8,24 +8,21 @@ import ApprovalRequests from "../ApprovalRequest/ApprovalRequest";
 import Employees from "../Employee/Employee"; // Import the new Employees component
 import Solvers from "../Solver/Solver";
 import Grievances from "../Grievances/Grievances";
+import EditProfile from "../EditProfile/EditProfile";
+import HomePage from "../Home/HomePage";
 
 const Dashboard = () => {
-  const { auth, logout } = useContext(AuthContext);
-  const [currentView, setCurrentView] = useState("content");
-
-  const handleViewChange = (view) => {
-    setCurrentView(view);
-  };
+  const { auth, logout, currentView, setCurrentView } = useContext(AuthContext);
 
   return (
     <>
-      <Navbar onChangeView={handleViewChange} />
+      {/* <Navbar onChangeView={handleViewChange} /> */}
       <div className="dashboard-container">
-        <Sidebar onChangeView={handleViewChange} />
+        <Sidebar onChangeView={setCurrentView} />
         {currentView === "solvers" && <Solvers />}
         {currentView === "approvalRequests" && <ApprovalRequests />}
         {currentView === "employees" && <Employees />}
-        {currentView === "content" && <Content />}
+        {currentView === "content" && <HomePage />}
         {currentView === "grievances" && <Grievances />}
       </div>
     </>
