@@ -34,6 +34,7 @@ const EmployeeDetail = () => {
             },
           }
         );
+        console.log(response?.data);
         setEmployee(response.data);
         setNewRole(response.data.role);
         if (response.data.role === "Solver") {
@@ -188,7 +189,7 @@ const EmployeeDetail = () => {
         showConfirmAssignrole) && <div className="overlay"></div>}
       <h2>Employee Details</h2>
       <div className="user-image">
-        {employee.userImage != "string" ? (
+        {employee.userImage != "DefaultImage" ? (
           <img src={employee.userImage} alt="" />
         ) : (
           <FaCircleUser className="user-icon" />
@@ -210,6 +211,12 @@ const EmployeeDetail = () => {
         <span className="detail-label">Role:</span>
         <span className="detail-value">{employee.role}</span>
       </div>
+      {employee.role === "Solver" && (
+        <div className="detail-item">
+          <span className="detail-label">Grievance Department :</span>
+          <span className="detail-value">{employee.grievanceDept}</span>
+        </div>
+      )}
       <div className="detail-item">
         <span className="detail-label">Date of Birth:</span>
         <span className="detail-value">{formatDate(employee.dob)}</span>
@@ -238,10 +245,11 @@ const EmployeeDetail = () => {
               onChange={handleGrievanceTypeChange}
             >
               <option value="">Select Grievance Type</option>
-              <option value="Technical">IT</option>
+              <option value="IT">IT</option>
               <option value="HR">HR</option>
               <option value="ProjectManagement">Project Management</option>
               <option value="Administration">Administration</option>
+              <option value="Facilities">Facilities</option>
             </select>
           </div>
         )}

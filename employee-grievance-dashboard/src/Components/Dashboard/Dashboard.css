@@ -24,6 +24,7 @@
   border-top-right-radius: 0px;
   position: sticky;
   background-color: white;
+  z-index: 99;
 }
 .nav-left {
   cursor: pointer;
@@ -68,6 +69,12 @@
   height: 100%;
   padding-bottom: 75px;
   transition: transform 0.3s ease-in-out;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.sidebar-container::-webkit-scrollbar {
+  display: none;
 }
 
 #dashboard-head {
@@ -112,10 +119,14 @@ li:hover {
   width: 45px;
   height: 45px;
 }
+.userimage svg {
+  width: 45px;
+  height: 45px;
+}
 
 .userimage img {
   object-fit: cover;
-  object-position: 0px 0px;
+  object-position: center;
   width: 100%;
   height: 100%;
   border-radius: 20px;

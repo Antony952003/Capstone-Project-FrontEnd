@@ -1,0 +1,139 @@
+.view-ratings-container {
+  padding: 20px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: scroll;
+  border: 1px solid darkgrey;
+  border-radius: 10px;
+  background-color: #ffffff;
+}
+
+.view-ratings-container::-webkit-scrollbar {
+  display: none;
+}
+.rating-header-r {
+  text-align: center;
+  font-weight: 400;
+}
+.ratings-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.rating-card {
+  flex: 1 1;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  background: #e0dddd;
+  box-shadow: 0 2px 4px rgba(0.7, 0.2, 0.6, 0.6);
+  min-width: 300px;
+}
+
+.employee-info-r {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  font-size: 20px;
+}
+
+.employee-image-r {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 5px solid var(--blue);
+}
+
+.employee-name {
+  font-weight: 400;
+  font-size: 30px;
+  letter-spacing: 5px;
+}
+.grievance-title-r {
+  font-size: 18px;
+  margin-top: 10px;
+  font-weight: 400;
+  color: grey;
+}
+
+.rating-mid {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.star {
+  font-size: 25px;
+  color: #ddd;
+  margin-top: 10px;
+}
+
+.star.filled {
+  color: #ffc107;
+}
+
+.comment {
+  font-size: 15px;
+  color: #333;
+}
+@media screen and (max-width: 900px) {
+  .employee-image-r {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 5px solid var(--blue);
+  }
+
+  .employee-name {
+    font-weight: 400;
+    font-size: 22px;
+    letter-spacing: 5px;
+  }
+
+  .rating {
+    margin: 10px 0;
+  }
+  .grievance-title-r {
+    font-size: 20px;
+    margin-top: 10px;
+    font-weight: 400;
+  }
+
+  .star {
+    font-size: 25px;
+    color: #ddd;
+    margin-right: 10px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .employee-image-r {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 5px solid var(--blue);
+  }
+
+  .employee-name {
+    font-weight: 400;
+    font-size: 25px;
+    letter-spacing: 5px;
+  }
+
+  .rating {
+    margin: 10px 0;
+  }
+  .grievance-title-r {
+    font-size: 20px;
+    margin-top: 10px;
+    font-weight: 400;
+  }
+
+  .star {
+    font-size: 25px;
+    color: #ddd;
+    margin-right: 10px;
+  }
+}

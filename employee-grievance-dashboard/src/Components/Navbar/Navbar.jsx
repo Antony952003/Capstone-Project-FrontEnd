@@ -31,8 +31,8 @@ function Navbar() {
         >
           {auth != null ? "Logout" : "SignIn"}
         </button>
-        {auth?.user.userImage == "string" ? (
-          <FaCircleUser className="user-icon" />
+        {auth?.user.userImage == "DefaultImage" ? (
+          <FaCircleUser />
         ) : (
           <div className="userimage user-icon-navbar">
             <img src={auth?.user.userImage} alt="" />

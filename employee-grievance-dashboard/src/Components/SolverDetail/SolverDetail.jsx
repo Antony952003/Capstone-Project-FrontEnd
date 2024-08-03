@@ -223,7 +223,7 @@ const SolverDetail = () => {
         showConfirmChangeDepartment) && <div className="overlay"></div>}
       <h2>Solver Details</h2>
       <div className="user-image">
-        {solver.userImage != "string" ? (
+        {solver.userImage != "DefaultImage" ? (
           <img src={solver.userImage} alt="" />
         ) : (
           <FaCircleUser className="user-icon" />
@@ -254,8 +254,17 @@ const SolverDetail = () => {
         <span className="detail-value">{solver.isApproved ? "Yes" : "No"}</span>
       </div>
       <div className="detail-item">
+        <span className="detail-label">Average Rating :</span>
+        <span className="detail-value">{solver.averageRating}</span>
+      </div>
+      <div className="detail-item">
         <span className="detail-label">Active:</span>
-        <span className="detail-value">
+        <span
+          className="detail-value"
+          style={{
+            color: `${solver.isAvailable ? "red" : "green"}`,
+          }}
+        >
           {solver.isAvailable ? "NotActive" : "Active"}
         </span>
       </div>
@@ -283,8 +292,9 @@ const SolverDetail = () => {
               <option value="">Select Grievance Type</option>
               <option value="IT">IT</option>
               <option value="HR">HR</option>
-              <option value="Facilities">Facilities</option>
+              <option value="ProjectManagement">Project Management</option>
               <option value="Administration">Administration</option>
+              <option value="Facilities">Facilities</option>
             </select>
           </div>
         )}

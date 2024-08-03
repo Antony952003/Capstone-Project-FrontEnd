@@ -12,10 +12,11 @@ function Grievances() {
   const [statusFilter, setStatusFilter] = useState("");
   const [priorityFilter, setPriorityFilter] = useState("");
   const { auth } = useContext(AuthContext);
+  const [errormessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     fetchAllGrievances();
-  }, []);
+  }, [auth]);
 
   useEffect(() => {
     applyFilters();
@@ -23,16 +24,42 @@ function Grievances() {
 
   const fetchAllGrievances = async () => {
     try {
-      const response = await apiClient.get(`/Grievance/GetAllGrievances`, {
-        headers: {
-          Authorization: `Bearer ${auth.accessToken}`,
-        },
-      });
+      let response;
+      if (auth.user.role === "Admin") {
+        response = await apiClient.get(`/Grievance/GetAllGrievances`, {
+          headers: {
+            Authorization: `Bearer ${auth.accessToken}`,
+          },
+        });
+      } else if (auth.user.role === "Employee") {
+        response = await apiClient.get(
+          `/Employee/grievances/${auth?.user?.userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${auth.accessToken}`,
+            },
+          }
+        );
+      } else if (auth.user.role === "Solver") {
+        response = await apiClient.get(`/Grievance/GetAllGrievancesBySolver`, {
+          headers: {
+            Authorization: `Bearer ${auth.accessToken}`,
+          },
+        });
+      }
+
       console.log(response.data);
+      if (response.data.length == 0) {
+        setErrorMessage(
+          `No grievances are ${
+            auth.user.role === "Employee" ? "Raised" : "Assigned"
+          } yet !!`
+        );
+      }
       setGrievances(response.data);
     } catch (error) {
       console.error(
-        "Failed to get all grievances:",
+        "Failed to get grievances:",
         error.response?.data?.message || error.message
       );
     }
@@ -56,6 +83,9 @@ function Grievances() {
     }
 
     setFilteredGrievances(filtered);
+    if (grievances.length != 0 && filteredGrievances.length == 0) {
+      setErrorMessage("No grievances for applied filter");
+    }
   };
 
   return (
@@ -118,7 +148,7 @@ function Grievances() {
             />
           ))
         ) : (
-          <p className="nogrievances">No Grievances For Applied Filter !!</p>
+          <p className="nogrievances">{errormessage}</p>
         )}
       </div>
     </div>

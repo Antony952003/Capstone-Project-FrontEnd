@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import apiClient from "../../ApiClient/apiClient";
 import "./SolverPopup.css";
+import { AuthContext } from "../../contexts/AuthContext";
 
 function SolverPopup({ grievanceType, onClose, onAssign }) {
   const [solvers, setSolvers] = useState([]);
@@ -54,7 +55,7 @@ function SolverPopup({ grievanceType, onClose, onAssign }) {
             ))}
           {solvers.length == 0 && (
             <p className="nosolvererror">
-              No Solvers for the grievance Type{" "}
+              No Solvers for the grievance Type <> </>
               <span className="red">{grievanceType}</span>
             </p>
           )}

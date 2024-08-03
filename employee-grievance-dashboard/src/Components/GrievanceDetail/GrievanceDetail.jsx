@@ -8,13 +8,36 @@ import SolverPopup from "../SolverPopup/SolverPopup";
 import "./GrievanceDetail.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ProvideSolutionPopup from "../ProvideSolutionPopup/ProvideSolutionPopup";
+import { PacmanLoader } from "react-spinners";
+import ConfirmationPopup from "../ConfirmationPopup/ConfirmationPopup";
+import EscalateGrievancePopup from "../EscalateGrievance/EscalateGrievancePopup";
+import RatingPopup from "../RatingPopup/RatingPopup";
 
 function GrievanceDetail() {
   const { id } = useParams();
   const { auth } = useContext(AuthContext);
   const [grievance, setGrievance] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
+  const [showSolutionPopup, setShowSolutionPopup] = useState(false);
+  const [showConfirmationPopup, setShowConfirmationPopup] = useState(false);
+  const [showEscalatePopup, setShowEscalatePopup] = useState(false);
+  const [showRatingPopup, setShowRatingPopup] = useState(false); // Add this line
+  const [rating, setRating] = useState(0); // Add this line
+  const [comment, setComment] = useState("");
+
   const navigate = useNavigate();
+
+  const documentname = (url) => {
+    const urlObject = new URL(url);
+
+    const pathname = urlObject.pathname;
+
+    const documentName = decodeURIComponent(
+      pathname.substring(pathname.lastIndexOf("/") + 1)
+    );
+    return documentName;
+  };
 
   function formatDate(dateString) {
     const months = [
@@ -88,9 +111,66 @@ function GrievanceDetail() {
         ...prevGrievance,
         solverId,
       }));
+      toast.success(`Grievance has been assigned to ${grievance?.solverId}`);
+      setTimeout(() => {
+        location.reload();
+      }, 3000);
     } catch (error) {
       console.error(
         "Failed to assign solver:",
+        error.response?.data?.message || error.message
+      );
+    }
+  };
+
+  const handleProvideRating = async () => {
+    try {
+      const response = await apiClient.post(
+        `/Ratings/ProvideRating`,
+        {
+          ratingId: 0,
+          grievanceId: id,
+          solverId: grievance.solverId,
+          ratingValue: rating,
+          comment: comment,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
+      toast.success(`Rating has been submitted successfully!`);
+      setShowRatingPopup(false);
+    } catch (error) {
+      toast.error(error.response?.data?.message || error.message);
+      console.error(
+        "Failed to submit rating:",
+        error.response?.data?.message || error.message
+      );
+    }
+  };
+
+  const handleResolveGrievance = async () => {
+    try {
+      const response = await apiClient.put(
+        `/Grievance/ResolveGrievance?id=${id}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
+      toast.success(`Grievance id : ${id} has been resolved successfully !!`);
+      setTimeout(() => {
+        location.reload();
+      }, 4000);
+      setShowConfirmationPopup(false);
+    } catch (error) {
+      toast.error(error.response?.data?.message || error.message);
+      console.error(
+        "Resolving Grievance error :",
         error.response?.data?.message || error.message
       );
     }
@@ -145,22 +225,90 @@ function GrievanceDetail() {
     }
   };
 
+  const handleEscalateGrievance = async (reason) => {
+    try {
+      await apiClient.post(
+        `http://localhost:7091/api/Grievance/EscalateGrievance`,
+        { grievanceId: id, reason: reason },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
+      toast.success(`Grievance has been escalated successfully`);
+      setTimeout(() => {
+        location.reload();
+      }, 3000);
+    } catch (error) {
+      console.error(
+        "Failed to escalate grievance:",
+        error.response?.data?.message || error.message
+      );
+    }
+  };
+
   if (!grievance) {
-    return <div>Loading...</div>;
+    return (
+      <div className="grievance-detail-loader">
+        <PacmanLoader
+          color="#007bff"
+          cssOverride={{}}
+          loading
+          margin={0}
+          speedMultiplier={1}
+        />
+      </div>
+    );
   }
 
   const viewGrievanceHistory = () => {
     navigate(`/grievancehistory/${grievance.grievanceId}`);
   };
 
+  const handleProvideSolution = () => {
+    setShowSolutionPopup(true);
+  };
+
   return (
     <>
       <div className="grievance-detail-container">
+        {showEscalatePopup && (
+          <EscalateGrievancePopup
+            onClose={() => setShowEscalatePopup(false)}
+            onConfirm={(reason) => handleEscalateGrievance(reason)}
+          />
+        )}
         {showPopup && (
           <SolverPopup
             grievanceType={grievance.type}
             onClose={() => setShowPopup(false)}
             onAssign={handleAssignSolver}
+          />
+        )}
+        {showSolutionPopup && (
+          <ProvideSolutionPopup
+            grievanceId={grievance.grievanceId}
+            onClose={() => setShowSolutionPopup(false)}
+            onSolutionProvided={() => setGrievance(null)}
+          />
+        )}
+        {showConfirmationPopup && (
+          <ConfirmationPopup
+            message="Are you sure you want to resolve this grievance?"
+            onConfirm={handleResolveGrievance}
+            onCancel={() => setShowConfirmationPopup(false)}
+          />
+        )}
+        {showRatingPopup && (
+          <RatingPopup
+            solvername={grievance.solverName}
+            rating={rating}
+            setRating={setRating}
+            comment={comment}
+            setComment={setComment}
+            onClose={() => setShowRatingPopup(false)}
+            onSubmit={handleProvideRating}
           />
         )}
         <div className="grievance-detail-card">
@@ -217,10 +365,16 @@ function GrievanceDetail() {
               <div className="document-container">
                 {grievance.documentUrls.map((document) => {
                   return (
-                    <div key={document} className="document">
-                      {document}
+                    <a
+                      key={document}
+                      className="document"
+                      href={document}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {documentname(document)}
                       <IoMdDownload />
-                    </div>
+                    </a>
                   );
                 })}
               </div>
@@ -235,7 +389,8 @@ function GrievanceDetail() {
               <FaAngleLeft /> Go To Dashboard
             </button>
             {(grievance.status === "Open" ||
-              grievance.status === "Escalated") && (
+              (grievance.status === "Escalated" &&
+                auth.user.role === "Admin")) && (
               <button
                 className="gbtn assign-solver"
                 onClick={() => setShowPopup(true)}
@@ -249,12 +404,55 @@ function GrievanceDetail() {
             >
               View Grievance History
             </button>
-            <button
-              className="gbtn close-grievance"
-              onClick={() => closeGrievance(false)}
-            >
-              Close Grievance
-            </button>
+            {auth.user.role === "Admin" && grievance.status != "Closed" && (
+              <button
+                className="gbtn close-grievance"
+                onClick={() => closeGrievance(false)}
+              >
+                Close Grievance
+              </button>
+            )}
+            {auth.user.role === "Solver" &&
+              grievance.status != "Resolved" &&
+              grievance.status != "Closed" &&
+              grievance.status != "Escalated" && (
+                <button
+                  className="gbtn assign-solver"
+                  onClick={handleProvideSolution}
+                >
+                  Provide Solution
+                </button>
+              )}
+            {auth.user.role === "Solver" &&
+              grievance.status != "Resolved" &&
+              grievance.status != "Closed" &&
+              grievance.status != "Escalated" && (
+                <button
+                  className="gbtn resolve"
+                  onClick={() => setShowConfirmationPopup(true)}
+                >
+                  Resolve Grievance
+                </button>
+              )}
+            {auth.user.role === "Solver" &&
+              grievance.status != "Resolved" &&
+              grievance.status != "Closed" &&
+              grievance.status != "Escalated" && (
+                <button
+                  className="gbtn escalate"
+                  onClick={() => setShowEscalatePopup(true)}
+                >
+                  Escalate Grievance
+                </button>
+              )}
+            {grievance.status === "Closed" && auth.user.role === "Employee" && (
+              <button
+                className="gbtn rate-solver"
+                onClick={() => setShowRatingPopup(true)}
+              >
+                Rate Solver
+              </button>
+            )}
           </div>
         </div>
       </div>

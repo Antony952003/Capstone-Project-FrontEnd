@@ -10,6 +10,9 @@ import Solvers from "../Solver/Solver";
 import Grievances from "../Grievances/Grievances";
 import EditProfile from "../EditProfile/EditProfile";
 import HomePage from "../Home/HomePage";
+import RequestApproval from "../RequestApproval/RequestApproval";
+import RaiseGrievance from "../RaiseGrievance/RaiseGrievance";
+import ViewRatings from "../ViewRatings/ViewRatings";
 
 const Dashboard = () => {
   const { auth, logout, currentView, setCurrentView } = useContext(AuthContext);
@@ -24,6 +27,9 @@ const Dashboard = () => {
         {currentView === "employees" && <Employees />}
         {currentView === "content" && <HomePage />}
         {currentView === "grievances" && <Grievances />}
+        {currentView === "requestApproval" && <RequestApproval />}
+        {currentView === "raiseGrievance" && <RaiseGrievance />}
+        {currentView === "viewrating" && <ViewRatings />}
       </div>
     </>
   );

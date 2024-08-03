@@ -143,6 +143,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("user");
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
+    setCurrentView("content");
     navigate("/login");
   };
 

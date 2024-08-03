@@ -3,7 +3,9 @@
 }
 
 .grievance-history-h2 {
-  margin: 15px;
+  margin: 10px;
+  font-size: 28px;
+  font-weight: 400;
 }
 
 .roadmap-container {
@@ -15,14 +17,14 @@
 .roadmap {
   position: relative;
   padding: 20px;
-  width: 600px;
+  width: 700px;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  background-color: #dedade;
+  background-color: #656465;
   border-radius: 20px;
-  max-height: 450px;
-  overflow-x: auto;
+  max-height: 400px;
+  overflow-y: auto;
 }
 
 .roadmap::-webkit-scrollbar {
@@ -35,6 +37,7 @@
   align-items: center;
   gap: 1.5rem;
   position: relative;
+  cursor: pointer;
 }
 @keyframes drawLine {
   from {
@@ -44,14 +47,23 @@
     height: 2.7rem; /* Final height of the line */
   }
 }
-
+@keyframes slideInFromTop {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 .roadmap-item::before {
   content: "";
   position: absolute;
   left: 25px; /* Center the line with the icon */
   top: -2.1rem; /* Adjust to position the line correctly */
   width: 2px;
-  height: 2.8rem; /* Ensure it spans correctly */
+  height: 2.7rem; /* Ensure it spans correctly */
   background-color: var(--blue);
   z-index: 99;
   animation: drawLine 1s ease-out forwards;
@@ -105,6 +117,7 @@
   border: 1px solid white;
   border-radius: 9px;
   background-color: #ffff;
+  animation: slideInFromTop 1s ease-in-out;
 }
 
 .history-date {
@@ -113,6 +126,105 @@
   justify-content: flex-end;
   margin-right: 5px;
   margin-top: 7px;
+}
+
+.grievance-history-header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+}
+
+.grievance-history-header h2 {
+  color: red;
+  display: flex;
+  position: relative;
+  right: 50px;
+  z-index: -1;
+}
+
+.go-back1 {
+  position: relative;
+  right: 400px;
+  background: rgb(78, 78, 78);
+}
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+}
+
+.popup-content h3 {
+  margin-bottom: 10px;
+}
+
+.popup-content p {
+  margin-bottom: 10px;
+}
+
+.popup-content ul {
+  list-style: none;
+  padding: 0;
+}
+
+.popup-content ul li {
+  margin-bottom: 5px;
+}
+
+.popup-content button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.popup-content button:hover {
+  background: #0056b3;
+}
+
+.submit-button,
+.cancel-button {
+  padding: 4px;
+  margin-right: 5px;
+  min-width: 150px;
+}
+
+.provide-feeback-btn {
+  margin-right: 10px;
+}
+
+.provide-feedback-actions-btns {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.history-title {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: auto;
 }
 
 @media screen and (max-width: 650px) {
@@ -137,10 +249,13 @@
   .roadmap-item {
     margin-left: 0px;
   }
-  .go-dashboard {
+  .go-back1 {
     font-size: 12px;
   }
   .history-date {
     font-size: 10px;
+  }
+  .grievance-history-header h2 {
+    font-size: 22px;
   }
 }

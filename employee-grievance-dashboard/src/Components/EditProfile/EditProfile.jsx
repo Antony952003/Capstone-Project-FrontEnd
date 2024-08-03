@@ -109,10 +109,18 @@ const EditProfile = () => {
       <div className={styles.editFormContainer}>
         <h2 className={styles.editprofileHead}>Edit User Details</h2>
         <div id="user-image" className={styles.userImage}>
-          {typeof user.image === "string" && user.image !== "" ? (
-            <img src={user.image} alt="User" />
+          {auth?.user?.userImage !== "DefaultImage" &&
+          auth?.user?.userImage !== "" ? (
+            <img src={auth?.user?.userImage} alt="User" />
           ) : (
-            <FaCircleUser className={styles.userIcon} />
+            <FaCircleUser
+              style={{
+                width: "120px",
+                height: "120px",
+                marginLeft: "auto",
+                marginRight: "auto",
+              }}
+            />
           )}
         </div>
         <div className={styles.formHeader}>
