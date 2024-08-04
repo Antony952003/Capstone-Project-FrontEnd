@@ -117,7 +117,7 @@ function GrievanceDetail() {
         ...prevGrievance,
         solverId,
       }));
-      toast.success(`Grievance has been assigned to ${grievance?.solverId}`);
+      toast.success(`Grievance has been assigned to SolverId : ${solverId}`);
       setTimeout(() => {
         location.reload();
       }, 3000);

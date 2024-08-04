@@ -33,18 +33,46 @@ function Sidebar({ onChangeView }) {
             <ul>
               <li
                 onClick={() => {
+                  setSidebarVisible(false);
                   onChangeView("approvalRequests");
                 }}
               >
                 Approval Requests
               </li>
-              <li onClick={() => onChangeView("employees")}>
+              <li
+                onClick={() => {
+                  setSidebarVisible(false);
+                  onChangeView("employees");
+                }}
+              >
                 View All Employees
               </li>
-              <li onClick={() => onChangeView("solvers")}>View All Solvers</li>
-              <li onClick={() => onChangeView("grievances")}>Grievances</li>
-              <li onClick={() => navigate(`/editprofile/${auth.user.userId}`)}>
+              <li
+                onClick={() => {
+                  setSidebarVisible(false);
+                  onChangeView("solvers");
+                }}
+              >
+                View All Solvers
+              </li>
+              <li
+                onClick={() => {
+                  setSidebarVisible(false);
+                  onChangeView("grievances");
+                }}
+              >
+                Grievances
+              </li>
+              <li
+                onClick={() => {
+                  setSidebarVisible(false);
+                  navigate(`/editprofile/${auth.user.userId}`);
+                }}
+              >
                 Edit Profile
+              </li>
+              <li className="logout-btn-side" onClick={() => logout()}>
+                Logout
               </li>
             </ul>
           </>
@@ -53,17 +81,28 @@ function Sidebar({ onChangeView }) {
           <>
             <ul>
               {auth?.user?.isApproved == false && (
-                <li onClick={() => onChangeView("requestApproval")}>
+                <li
+                  onClick={() => {
+                    setSidebarVisible(false);
+                    onChangeView("requestApproval");
+                  }}
+                >
                   Request Approval
                 </li>
               )}
               {auth?.user?.isApproved == true && (
-                <li onClick={() => onChangeView("requestApproval")}>
+                <li
+                  onClick={() => {
+                    setSidebarVisible(false);
+                    onChangeView("requestApproval");
+                  }}
+                >
                   View Request Status
                 </li>
               )}
               <li
                 onClick={() => {
+                  setSidebarVisible(false);
                   var approveError =
                     "Your Account is not yet Approved to Raise or Manage grievances !!";
                   if (auth.user.isApproved == false) {
@@ -77,6 +116,7 @@ function Sidebar({ onChangeView }) {
               </li>
               <li
                 onClick={() => {
+                  setSidebarVisible(false);
                   var approveError =
                     "Your Account is not yet Approved to Raise or Manage grievances !!";
                   if (auth.user.isApproved == false) {
@@ -88,10 +128,18 @@ function Sidebar({ onChangeView }) {
               >
                 Raise Grievance
               </li>
-              <li onClick={() => navigate(`/editprofile/${auth.user.userId}`)}>
+              <li
+                onClick={() => {
+                  setSidebarVisible(false);
+                  navigate(`/editprofile/${auth.user.userId}`);
+                }}
+              >
                 Edit Profile
               </li>
               <li>Help & Support</li>
+              <li className="logout-btn-side" onClick={() => logout()}>
+                Logout
+              </li>
             </ul>
           </>
         )}
@@ -99,17 +147,28 @@ function Sidebar({ onChangeView }) {
           <>
             <ul>
               {auth?.user?.isApproved == false && (
-                <li onClick={() => onChangeView("requestApproval")}>
+                <li
+                  onClick={() => {
+                    setSidebarVisible(false);
+                    onChangeView("requestApproval");
+                  }}
+                >
                   Request Approval
                 </li>
               )}
               {auth?.user?.isApproved == true && (
-                <li onClick={() => onChangeView("requestApproval")}>
+                <li
+                  onClick={() => {
+                    setSidebarVisible(false);
+                    onChangeView("requestApproval");
+                  }}
+                >
                   View Request Status
                 </li>
               )}
               <li
                 onClick={() => {
+                  setSidebarVisible(false);
                   var approveError =
                     "Your Account is not yet Approved make a approval request !!";
                   if (auth.user.isApproved == false) {
@@ -121,11 +180,26 @@ function Sidebar({ onChangeView }) {
               >
                 Assigned Grievances
               </li>
-              <li onClick={() => onChangeView("viewrating")}>View Reviews</li>
-              <li onClick={() => navigate(`/editprofile/${auth.user.userId}`)}>
+              <li
+                onClick={() => {
+                  setSidebarVisible(false);
+                  onChangeView("viewrating");
+                }}
+              >
+                View Reviews
+              </li>
+              <li
+                onClick={() => {
+                  setSidebarVisible(false);
+                  navigate(`/editprofile/${auth.user.userId}`);
+                }}
+              >
                 Edit Profile
               </li>
               <li>Help & Support</li>
+              <li className="logout-btn-side" onClick={() => logout()}>
+                Logout
+              </li>
             </ul>
           </>
         )}

@@ -244,6 +244,14 @@
   .filters {
     flex-direction: column;
   }
+  .grievance-container {
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  .grievance-description {
+    margin-top: 20px;
+  }
 }
 
 .filters {

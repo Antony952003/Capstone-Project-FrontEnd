@@ -139,6 +139,7 @@ function GrievanceHistory() {
   }, [grievanceId]);
 
   const handleSolutionClick = async (solutionId) => {
+    setLoading(true);
     try {
       const response = await apiClient.get(`/Solution/solution/${solutionId}`);
       setSelectedSolution(response.data);
@@ -146,15 +147,20 @@ function GrievanceHistory() {
       setIsSolutionPopupOpen(true);
     } catch (error) {
       toast.error("Error fetching solution details");
+    } finally {
+      setLoading(false);
     }
   };
   const handleFeedbackClick = async (feedbackId) => {
+    setLoading(true);
     try {
       const response = await apiClient.get(`/Feedback/feedback/${feedbackId}`);
       setSelectedFeedback(response.data);
       setIsFeedbackPopupOpen(true);
     } catch (error) {
       toast.error(`Error fetching feedback details`);
+    } finally {
+      setLoading(false);
     }
   };
 

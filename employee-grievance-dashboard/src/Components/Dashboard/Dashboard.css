@@ -30,6 +30,10 @@
   cursor: pointer;
 }
 
+.logout-btn-side {
+  display: none;
+}
+
 .nav-right {
   display: flex;
   list-style: none;
@@ -186,12 +190,30 @@ li:hover {
   .nav-right {
     display: none;
   }
+  #dashboard-head {
+    margin-bottom: 30px;
+  }
+  .logout-btn-side {
+    display: block;
+  }
+  .sidebar-container {
+    top: 0px;
+    max-height: 100vh;
+  }
   .nav-head {
     font-size: 22px;
   }
   .navbar {
     display: block;
     text-align: center;
+  }
+  .dashboard-container {
+    gap: 0;
+  }
+  .piechart-part canvas,
+  .barchart-part canvas {
+    width: 342px !important;
+    height: 300px !important;
   }
 }
 

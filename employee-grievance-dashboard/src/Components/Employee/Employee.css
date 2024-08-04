@@ -1,6 +1,6 @@
 .employees {
   background-color: #f9f9f9;
-  max-height: 85vh;
+  height: 85vh;
   overflow-y: auto;
 }
 
