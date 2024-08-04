@@ -255,7 +255,7 @@ const EmployeeDetail = () => {
                 </select>
               </div>
             )}
-            {employee.isAvailable && (
+            {employee.isApproved && (
               <button onClick={handleRoleAssignment}>Assign Role</button>
             )}
           </div>

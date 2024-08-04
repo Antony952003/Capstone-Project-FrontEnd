@@ -88,7 +88,7 @@ const ApprovalRequests = () => {
           ? `/ApprovalRequest/ApproveRequest?id=${request.approvalRequestId}`
           : `/ApprovalRequest/RejectRequest?id=${request.approvalRequestId}`;
 
-      await axios.post(
+      await apiClient.post(
         endpoint,
         {},
         {
