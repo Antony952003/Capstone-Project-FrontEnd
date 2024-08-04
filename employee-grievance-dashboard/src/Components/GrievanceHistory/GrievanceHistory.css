@@ -143,13 +143,12 @@
   color: red;
   display: flex;
   position: relative;
-  right: 50px;
   z-index: -1;
+  text-align: center;
 }
 
 .go-back1 {
-  position: relative;
-  right: 400px;
+  margin-top: 20px;
   background: rgb(78, 78, 78);
 }
 
@@ -234,18 +233,42 @@
 @media screen and (max-width: 650px) {
   .roadmap {
     width: 100%;
+    padding: 10px;
   }
   .roadmap-content {
     font-size: 14px;
+    max-width: 250px;
   }
   .history-date {
     font-size: 12px;
   }
+  .roadmap-item {
+    margin-left: 0px;
+  }
+  .grievance-history-container {
+    padding: 0px;
+  }
+  .grievance-history-header h2 {
+    font-size: 25.1px;
+  }
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (min-width: 472px) and (max-width: 649px) {
+  .roadmap-content {
+    max-width: 320px;
+  }
+  .roadmap-item {
+    margin-left: 30px;
+  }
+}
+
+@media screen and (max-width: 370px) {
   .roadmap {
     width: 100%;
+    padding: 10px;
+  }
+  .grievance-history-container {
+    padding: 0px;
   }
   .roadmap-content {
     font-size: 12px;
@@ -261,5 +284,8 @@
   }
   .grievance-history-header h2 {
     font-size: 22px;
+  }
+  .roadmap-content {
+    max-width: 238px;
   }
 }

@@ -52,7 +52,7 @@ function ViewRatings() {
                 ) : (
                   <FaCircleUser className="employee-image-r" />
                 )}
-                <p className="employee-name">{rating.employeeName}</p>
+                <p className="employee-name-r">{rating.employeeName}</p>
               </div>
               <div className="rating-mid">
                 <div className="grievance-title-r">

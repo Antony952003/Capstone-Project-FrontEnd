@@ -45,7 +45,7 @@
   border: 5px solid var(--blue);
 }
 
-.employee-name {
+.employee-name-r {
   font-weight: 400;
   font-size: 30px;
   letter-spacing: 5px;
@@ -86,7 +86,7 @@
     border: 5px solid var(--blue);
   }
 
-  .employee-name {
+  .employee-name-r-r {
     font-weight: 400;
     font-size: 22px;
     letter-spacing: 5px;
@@ -116,7 +116,7 @@
     border: 5px solid var(--blue);
   }
 
-  .employee-name {
+  .employee-name-r {
     font-weight: 400;
     font-size: 25px;
     letter-spacing: 5px;

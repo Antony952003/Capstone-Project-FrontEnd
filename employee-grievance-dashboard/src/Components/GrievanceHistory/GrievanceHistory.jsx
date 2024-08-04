@@ -210,9 +210,6 @@ function GrievanceHistory() {
       ) : (
         <div className="roadmap-container">
           <div className="grievance-history-header">
-            <button onClick={() => navigate(-1)} className="gbtn go-back1">
-              <FaArrowLeft /> Go Back
-            </button>
             <h2 className="grievance-history-h2">Grievance History</h2>
           </div>
           <div className="roadmap">
@@ -259,6 +256,9 @@ function GrievanceHistory() {
               </div>
             ))}
           </div>
+          <button onClick={() => navigate(-1)} className="gbtn go-back1">
+            <FaArrowLeft /> Go Back
+          </button>
         </div>
       )}
 
