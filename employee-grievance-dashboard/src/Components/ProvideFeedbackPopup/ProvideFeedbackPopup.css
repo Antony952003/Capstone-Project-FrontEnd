@@ -11,6 +11,10 @@
   align-items: center;
 }
 
+.Toastify__toast-container {
+  z-index: 99999999; /* Set a high value to ensure it appears above other elements */
+}
+
 .feedback-popup {
   background: white;
   padding: 20px;

@@ -7,18 +7,21 @@ import { AuthContext } from "../../contexts/AuthContext";
 function ViewRatings() {
   const [ratings, setRatings] = useState([]);
   const { auth } = useContext(AuthContext);
+  var [errormessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     const fetchRatings = async () => {
       try {
         const response = await apiClient.get(
-          `http://localhost:7091/api/Ratings/GetAllSolverRatings?solverid=${auth?.user?.userId}`,
+          `/Ratings/GetAllSolverRatings?solverid=${auth?.user?.userId}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
             },
           }
         );
+        if (response.data.length === 0)
+          setErrorMessage("No reviews are given yet !!");
         setRatings(response.data);
       } catch (error) {
         console.error(
@@ -34,13 +37,13 @@ function ViewRatings() {
     <div className="view-ratings-container">
       <h2 className="rating-header-r">Reviews</h2>
       {ratings.length === 0 ? (
-        <p>No ratings available.</p>
+        <p className="nogrievances">{errormessage}</p>
       ) : (
         <div className="ratings-cards">
           {ratings.map((rating, index) => (
             <div key={index} className="rating-card">
               <div className="employee-info-r">
-                {rating.employeeImage ? (
+                {rating.employeeImage !== "DefaultImage" ? (
                   <img
                     src={rating.employeeImage}
                     alt={rating.employeeName}

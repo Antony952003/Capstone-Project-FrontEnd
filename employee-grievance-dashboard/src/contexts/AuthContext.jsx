@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import apiClient from "../ApiClient/apiClient"; // Adjust the path as necessary
 import { useNavigate } from "react-router-dom";
-
+import { toast, ToastContainer } from "react-toastify";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -55,7 +55,7 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
     try {
       const response = await apiClient.post("/Auth/login", { email, password });
-      const delay = setLoadingWithDelay(1800); // Minimum 3 seconds delay
+      const delay = setLoadingWithDelay(1000); // Minimum 3 seconds delay
       await Promise.all([delay]);
 
       console.log(response.data);
@@ -97,12 +97,16 @@ export const AuthProvider = ({ children }) => {
       await Promise.all([delay]);
       localStorage.setItem("accessToken", response.data.accessToken);
       localStorage.setItem("refreshToken", response.data.refreshToken);
-      navigate("/login");
+      toast.success("Registered Successfully !!");
+      setTimeout(() => {
+        navigate("/login");
+      }, 4000);
     } catch (error) {
       console.error(
         "Registration failed:",
         error.response?.data?.message || error.message
       );
+      toast.error(`Error in register ${error.response?.data?.details}`);
     } finally {
       setLoading(false);
     }

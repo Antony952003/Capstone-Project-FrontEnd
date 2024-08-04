@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL: "http://localhost:7091/api",
+  // baseURL: "http://localhost:7091/api",
+  baseURL: "http://20.3.137.9:3004/api",
 });
 
 apiClient.interceptors.request.use(
@@ -43,10 +44,9 @@ apiClient.interceptors.response.use(
       }
 
       try {
-        const response = await axios.post(
-          "http://localhost:7091/api/Auth/refresh-token",
-          { token: refreshToken }
-        );
+        const response = await apiClient.post("/Auth/refresh-token", {
+          token: refreshToken,
+        });
         console.log("Refresh token response:", response.data);
         const newAccessToken = response.data.accessToken;
         const newRefreshToken = response.data.refreshToken;

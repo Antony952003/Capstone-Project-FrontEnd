@@ -15,6 +15,7 @@ import "aos/dist/aos.css";
 import { IoMdDownload } from "react-icons/io";
 import { AuthContext } from "../../contexts/AuthContext";
 import ProvideFeedbackPopup from "../ProvideFeedbackPopup/ProvideFeedbackPopup";
+import { PacmanLoader } from "react-spinners";
 
 function formatDate(dateString) {
   const months = [
@@ -59,6 +60,7 @@ function GrievanceHistory() {
   const [isSolutionPopupOpen, setIsSolutionPopupOpen] = useState(false);
   const [isFeedbackPopupOpen, setIsFeedbackPopupOpen] = useState(false);
   const [showFeedbackPopup, setShowFeedbackPopup] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { grievanceId } = useParams();
   const [history, setHistory] = useState([]);
   const navigate = useNavigate();
@@ -88,7 +90,7 @@ function GrievanceHistory() {
     const fetchGrievanceDetails = async () => {
       try {
         const response = await apiClient.get(
-          `http://localhost:7091/api/Grievance/GetGrievanceById?id=${grievanceId}`,
+          `/Grievance/GetGrievanceById?id=${grievanceId}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -104,9 +106,10 @@ function GrievanceHistory() {
       }
     };
     const fetchGrievanceHistory = async () => {
+      setLoading(true);
       try {
         const response = await apiClient.get(
-          `http://localhost:7091/api/GrievanceHistory/GetGrievanceHistoryById?grievanceId=${grievanceId}`,
+          `/GrievanceHistory/GetGrievanceHistoryById?grievanceId=${grievanceId}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -119,6 +122,8 @@ function GrievanceHistory() {
           "Failed to fetch grievance history:",
           error.response?.data?.message || error.message
         );
+      } finally {
+        setLoading(false);
       }
     };
     fetchGrievanceDetails();
@@ -186,47 +191,41 @@ function GrievanceHistory() {
 
   return (
     <div className="grievance-history-container">
-      <div className="roadmap-container">
-        <div className="grievance-history-header">
-          <button onClick={() => navigate(-1)} className="gbtn go-back1">
-            <FaArrowLeft /> Go Back
-          </button>
-          <h2 className="grievance-history-h2">Grievance History</h2>
+      {loading ? (
+        <div className="grievance-detail-loader">
+          <PacmanLoader
+            color="#007bff"
+            cssOverride={{}}
+            loading
+            margin={0}
+            speedMultiplier={1}
+          />
         </div>
-        <div className="roadmap">
-          {history.map((entry) => (
-            <div
-              key={entry.grievanceHistoryId}
-              className="roadmap-item"
-              onClick={() => {
-                if (entry.historyType === "Solution")
-                  handleSolutionClick(entry.relatedEntityId);
-                else if (entry.historyType === "Feedback") {
-                  handleFeedbackClick(entry.relatedEntityId);
-                }
-              }}
-            >
-              <div className="roadmap-icon">
-                {getIconForType(entry.historyType)}
-              </div>
-              {entry.historyType === "Solution" && (
-                <div className="roadmap-content">
-                  <div className="history-title">{entry.statusChange} </div>
-                  <div className="history-date">
-                    {formatDate(entry.dateChanged)}
-                  </div>
+      ) : (
+        <div className="roadmap-container">
+          <div className="grievance-history-header">
+            <button onClick={() => navigate(-1)} className="gbtn go-back1">
+              <FaArrowLeft /> Go Back
+            </button>
+            <h2 className="grievance-history-h2">Grievance History</h2>
+          </div>
+          <div className="roadmap">
+            {history.map((entry) => (
+              <div
+                key={entry.grievanceHistoryId}
+                className="roadmap-item"
+                onClick={() => {
+                  if (entry.historyType === "Solution")
+                    handleSolutionClick(entry.relatedEntityId);
+                  else if (entry.historyType === "Feedback") {
+                    handleFeedbackClick(entry.relatedEntityId);
+                  }
+                }}
+              >
+                <div className="roadmap-icon">
+                  {getIconForType(entry.historyType)}
                 </div>
-              )}
-              {entry.historyType === "Feedback" && (
-                <div className="roadmap-content">
-                  <div className="history-title">{entry.statusChange} </div>
-                  <div className="history-date">
-                    {formatDate(entry.dateChanged)}
-                  </div>
-                </div>
-              )}
-              {entry.historyType !== "Solution" &&
-                entry.historyType !== "Feedback" && (
+                {entry.historyType === "Solution" && (
                   <div className="roadmap-content">
                     <div className="history-title">{entry.statusChange} </div>
                     <div className="history-date">
@@ -234,10 +233,29 @@ function GrievanceHistory() {
                     </div>
                   </div>
                 )}
-            </div>
-          ))}
+                {entry.historyType === "Feedback" && (
+                  <div className="roadmap-content">
+                    <div className="history-title">{entry.statusChange} </div>
+                    <div className="history-date">
+                      {formatDate(entry.dateChanged)}
+                    </div>
+                  </div>
+                )}
+                {entry.historyType !== "Solution" &&
+                  entry.historyType !== "Feedback" && (
+                    <div className="roadmap-content">
+                      <div className="history-title">{entry.statusChange} </div>
+                      <div className="history-date">
+                        {formatDate(entry.dateChanged)}
+                      </div>
+                    </div>
+                  )}
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
+
       {showFeedbackPopup && (
         <ProvideFeedbackPopup
           solutionId={selectedSolution?.solutionId}

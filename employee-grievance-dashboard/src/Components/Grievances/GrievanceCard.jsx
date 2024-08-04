@@ -1,4 +1,5 @@
 import React from "react";
+import { FaCircleUser } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 
 function GrievanceCard({ grievance, index }) {
@@ -49,7 +50,11 @@ function GrievanceCard({ grievance, index }) {
     >
       <div className="user-info">
         <div className="grievance-user-image">
-          <img src={grievance.employeeImage} alt="" />
+          {grievance.employeeImage !== "DefaultImage" ? (
+            <img src={grievance.employeeImage} alt="" />
+          ) : (
+            <FaCircleUser />
+          )}
         </div>
         <p>{grievance.employeeName}</p>
       </div>

@@ -27,7 +27,7 @@ const EmployeeDetail = () => {
     const fetchEmployee = async () => {
       try {
         const response = await apiClient.get(
-          `http://localhost:7091/api/Admin/GetEmployeeById?employeeid=${id}`,
+          `/Admin/GetEmployeeById?employeeid=${id}`,
           {
             headers: {
               Authorization: `Bearer ${auth.accessToken}`,
@@ -99,7 +99,7 @@ const EmployeeDetail = () => {
     if (actionToConfirm === "delete") {
       try {
         await apiClient.post(
-          `http://localhost:7091/api/Admin/DeleteUserById?id=${id}`,
+          `/Admin/DeleteUserById?id=${id}`,
           {},
           {
             headers: {
@@ -121,7 +121,7 @@ const EmployeeDetail = () => {
     } else if (actionToConfirm === "disapprove") {
       try {
         await apiClient.post(
-          `http://localhost:7091/api/Admin/DisApproveUserById?id=${id}`,
+          `/Admin/DisApproveUserById?id=${id}`,
           {},
           {
             headers: {
@@ -141,7 +141,7 @@ const EmployeeDetail = () => {
     } else if (actionToConfirm === "assignRole") {
       try {
         await apiClient.post(
-          `http://localhost:7091/api/Admin/AssignRoleToUser`,
+          `/Admin/AssignRoleToUser`,
           {
             userId: id,
             role: newRole,
@@ -227,45 +227,51 @@ const EmployeeDetail = () => {
           {employee.isApproved ? "Yes" : "No"}
         </span>
       </div>
-      <div className="role-assignment">
-        <div className="assign-role-field">
-          <label htmlFor="role">Assign New Role:</label>
-          <select id="role" value={newRole} onChange={handleRoleChange}>
-            <option value="Solver">Solver</option>
-            <option value="Admin">Admin</option>
-            <option value="Employee">Employee</option>
-          </select>
-        </div>
-        {showGrievanceField && (
-          <div className="grievance-type">
-            <label htmlFor="grievanceType">Grievance Type:</label>
-            <select
-              id="grievanceType"
-              value={grievanceType}
-              onChange={handleGrievanceTypeChange}
-            >
-              <option value="">Select Grievance Type</option>
-              <option value="IT">IT</option>
-              <option value="HR">HR</option>
-              <option value="ProjectManagement">Project Management</option>
-              <option value="Administration">Administration</option>
-              <option value="Facilities">Facilities</option>
-            </select>
+      {auth?.user?.role === "Admin" && (
+        <>
+          <div className="role-assignment">
+            <div className="assign-role-field">
+              <label htmlFor="role">Assign New Role:</label>
+              <select id="role" value={newRole} onChange={handleRoleChange}>
+                <option value="Solver">Solver</option>
+                <option value="Admin">Admin</option>
+                <option value="Employee">Employee</option>
+              </select>
+            </div>
+            {showGrievanceField && (
+              <div className="grievance-type">
+                <label htmlFor="grievanceType">Grievance Type:</label>
+                <select
+                  id="grievanceType"
+                  value={grievanceType}
+                  onChange={handleGrievanceTypeChange}
+                >
+                  <option value="">Select Grievance Type</option>
+                  <option value="IT">IT</option>
+                  <option value="HR">HR</option>
+                  <option value="ProjectManagement">Project Management</option>
+                  <option value="Administration">Administration</option>
+                  <option value="Facilities">Facilities</option>
+                </select>
+              </div>
+            )}
+            {employee.isAvailable && (
+              <button onClick={handleRoleAssignment}>Assign Role</button>
+            )}
           </div>
-        )}
-        <button onClick={handleRoleAssignment}>Assign Role</button>
-      </div>
-      <div className="approve-btns">
-        <button className="delete-button" onClick={handleDeleteEmployee}>
-          Delete Employee
-        </button>
-        <button
-          className="disapprove-button"
-          onClick={handleDisapproveEmployee}
-        >
-          Disapprove Employee
-        </button>
-      </div>
+          <div className="approve-btns">
+            <button className="delete-button" onClick={handleDeleteEmployee}>
+              Delete Employee
+            </button>
+            <button
+              className="disapprove-button"
+              onClick={handleDisapproveEmployee}
+            >
+              Disapprove Employee
+            </button>
+          </div>
+        </>
+      )}
       <div className="go-back">
         <button className="go-back-button" onClick={handleGoBack}>
           <IoIosArrowBack /> Go Back to Dashboard

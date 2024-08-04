@@ -24,7 +24,7 @@ const ApprovalRequests = () => {
     const fetchApprovalRequests = async () => {
       try {
         const response = await apiClient.get(
-          "http://localhost:7091/api/ApprovalRequest/GetAllApprovalRequests",
+          "/ApprovalRequest/GetAllApprovalRequests",
           {
             headers: {
               Authorization: `Bearer ${auth.accessToken}`,
@@ -85,8 +85,8 @@ const ApprovalRequests = () => {
     try {
       const endpoint =
         action === "approve"
-          ? `http://localhost:7091/api/ApprovalRequest/ApproveRequest?id=${request.approvalRequestId}`
-          : `http://localhost:7091/api/ApprovalRequest/RejectRequest?id=${request.approvalRequestId}`;
+          ? `/ApprovalRequest/ApproveRequest?id=${request.approvalRequestId}`
+          : `/ApprovalRequest/RejectRequest?id=${request.approvalRequestId}`;
 
       await axios.post(
         endpoint,

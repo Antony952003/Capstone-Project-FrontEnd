@@ -11,7 +11,7 @@ function SolverPopup({ grievanceType, onClose, onAssign }) {
     const fetchSolvers = async () => {
       try {
         const response = await apiClient.get(
-          `http://localhost:7091/api/Admin/GetSolversByType?solvertype=${grievanceType}`
+          `/Admin/GetSolversByType?solvertype=${grievanceType}`
         );
         console.log(response.data);
         setSolvers(response.data);

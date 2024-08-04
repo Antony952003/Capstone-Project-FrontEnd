@@ -6,6 +6,7 @@ import "../FormStyles/formStyles.css";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import { PacmanLoader } from "react-spinners";
+import { toast, ToastContainer } from "react-toastify";
 
 const validationSchema = Yup.object({
   email: Yup.string().email("Invalid email address").required("Required"),
@@ -83,7 +84,6 @@ const Register = () => {
                   values.password,
                   "DefaultImage"
                 );
-                navigate("/login");
               }}
             >
               <Form>
@@ -179,6 +179,7 @@ const Register = () => {
           </div>
         </>
       )}
+      <ToastContainer />
     </div>
   );
 };

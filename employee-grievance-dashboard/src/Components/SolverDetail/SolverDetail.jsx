@@ -9,6 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../EmployeeDetail/EmployeeDetail.css";
 import apiClient from "../../ApiClient/apiClient";
+import { PacmanLoader } from "react-spinners";
 
 const SolverDetail = () => {
   const { auth } = useContext(AuthContext);
@@ -29,14 +30,11 @@ const SolverDetail = () => {
   useEffect(() => {
     const fetchSolver = async () => {
       try {
-        const response = await apiClient.get(
-          `http://localhost:7091/api/Admin/GetSolverById?id=${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${auth.accessToken}`,
-            },
-          }
-        );
+        const response = await apiClient.get(`/Admin/GetSolverById?id=${id}`, {
+          headers: {
+            Authorization: `Bearer ${auth.accessToken}`,
+          },
+        });
         setSolver(response.data);
         setNewRole(response.data.role);
         if (response.data.role === "Solver") {
@@ -106,7 +104,7 @@ const SolverDetail = () => {
     if (actionToConfirm === "delete") {
       try {
         await apiClient.post(
-          `http://localhost:7091/api/Admin/DeleteUserById?id=${id}`,
+          `/Admin/DeleteUserById?id=${id}`,
           {},
           {
             headers: {
@@ -128,7 +126,7 @@ const SolverDetail = () => {
     } else if (actionToConfirm === "disapprove") {
       try {
         await apiClient.post(
-          `http://localhost:7091/api/Admin/DisApproveUserById?id=${id}`,
+          `/Admin/DisApproveUserById?id=${id}`,
           {},
           {
             headers: {
@@ -148,7 +146,7 @@ const SolverDetail = () => {
     } else if (actionToConfirm === "assignRole") {
       try {
         await apiClient.post(
-          `http://localhost:7091/api/Admin/AssignRoleToUser`,
+          `/Admin/AssignRoleToUser`,
           {
             userId: id,
             role: newRole,
@@ -175,7 +173,7 @@ const SolverDetail = () => {
     } else if (actionToConfirm === "changeDepartment") {
       try {
         await apiClient.put(
-          `http://localhost:7091/api/Admin/ChangeDepartmentBySolverId?solverid=${id}&departmenttype=${newGrievanceType}`,
+          `/Admin/ChangeDepartmentBySolverId?solverid=${id}&departmenttype=${newGrievanceType}`,
           {},
           {
             headers: {
@@ -213,7 +211,18 @@ const SolverDetail = () => {
     navigate("/dashboard");
   };
 
-  if (!solver) return <div>Loading...</div>;
+  if (!solver)
+    return (
+      <div className="grievance-detail-loader">
+        <PacmanLoader
+          color="#007bff"
+          cssOverride={{}}
+          loading
+          margin={0}
+          speedMultiplier={1}
+        />
+      </div>
+    );
 
   return (
     <div className="employee-detail">
@@ -272,61 +281,79 @@ const SolverDetail = () => {
         <span className="detail-label">Grievance Department Type:</span>
         <span className="detail-value">{solver.grievanceDepartmentType}</span>
       </div>
-      <div className="role-assignment">
-        <div className="assign-role-field">
-          <label htmlFor="role">Assign New Role:</label>
-          <select id="role" value={newRole} onChange={handleRoleChange}>
-            <option value="Solver">Solver</option>
-            <option value="Admin">Admin</option>
-            <option value="Employee">Employee</option>
-          </select>
-        </div>
-        {showGrievanceField && (
-          <div className="assign-grievance-field">
-            <label htmlFor="grievanceType">Grievance Type:</label>
-            <select
-              id="grievanceType"
-              value={grievanceType}
-              onChange={handleGrievanceTypeChange}
-            >
-              <option value="">Select Grievance Type</option>
-              <option value="IT">IT</option>
-              <option value="HR">HR</option>
-              <option value="ProjectManagement">Project Management</option>
-              <option value="Administration">Administration</option>
-              <option value="Facilities">Facilities</option>
-            </select>
+
+      {auth?.user?.role === "Admin" ? (
+        <>
+          <div className="role-assignment">
+            <div className="assign-role-field">
+              <label htmlFor="role">Assign New Role:</label>
+              <select id="role" value={newRole} onChange={handleRoleChange}>
+                <option value="Solver">Solver</option>
+                <option value="Admin">Admin</option>
+                <option value="Employee">Employee</option>
+              </select>
+            </div>
+            {showGrievanceField && (
+              <div className="assign-grievance-field">
+                <label htmlFor="grievanceType">Grievance Type:</label>
+                <select
+                  id="grievanceType"
+                  value={grievanceType}
+                  onChange={handleGrievanceTypeChange}
+                >
+                  <option value="">Select Grievance Type</option>
+                  <option value="IT">IT</option>
+                  <option value="HR">HR</option>
+                  <option value="ProjectManagement">Project Management</option>
+                  <option value="Administration">Administration</option>
+                  <option value="Facilities">Facilities</option>
+                </select>
+              </div>
+            )}
           </div>
-        )}
-      </div>
-      <div className="actions">
-        <div className="btns-firstrow">
-          <button className="assign-role-btn" onClick={handleRoleAssignment}>
-            Assign Role
-          </button>
-          <button
-            className="disapprove-button"
-            onClick={handleDepartmentChange}
-          >
-            Change Department
-          </button>
-          <button className="delete-button" onClick={handleDeleteSolver}>
-            Delete Solver
-          </button>
-        </div>
-        <div className="btns-secondrow">
-          <button
-            className="disapprove-button"
-            onClick={handleDisapproveSolver}
-          >
-            Disapprove Solver
-          </button>
-          <button className="go-back-button" onClick={handleGoBack}>
-            <IoIosArrowBack className="back-icon" />
-            Go to Dashboard
-          </button>
-        </div>
-      </div>
+          <div className="actions">
+            <div className="btns-firstrow">
+              {solver.isAvailable && (
+                <button
+                  className="assign-role-btn"
+                  onClick={handleRoleAssignment}
+                >
+                  Assign Role
+                </button>
+              )}
+              <button
+                className="disapprove-button"
+                onClick={handleDepartmentChange}
+              >
+                Change Department
+              </button>
+              <button className="delete-button" onClick={handleDeleteSolver}>
+                Delete Solver
+              </button>
+            </div>
+            <div className="btns-secondrow">
+              {solver.isAvailable && (
+                <button
+                  className="disapprove-button"
+                  onClick={handleDisapproveSolver}
+                >
+                  Disapprove Solver
+                </button>
+              )}
+              <button className="go-back-button" onClick={handleGoBack}>
+                <IoIosArrowBack className="back-icon" />
+                Go to Dashboard
+              </button>
+            </div>
+          </div>
+        </>
+      ) : (
+        <button className="go-back-button" onClick={handleGoBack}>
+          <IoIosArrowBack className="back-icon" />
+          Go to Dashboard
+        </button>
+      )}
+
       {showConfirmDelete && (
         <div className="confirmation-dialog">
           <p>Are you sure you want to delete this solver?</p>

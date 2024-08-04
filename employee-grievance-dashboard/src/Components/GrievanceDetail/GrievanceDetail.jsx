@@ -25,6 +25,7 @@ function GrievanceDetail() {
   const [showRatingPopup, setShowRatingPopup] = useState(false); // Add this line
   const [rating, setRating] = useState(0); // Add this line
   const [comment, setComment] = useState("");
+  const [loading, setLoading] = useState("");
 
   const navigate = useNavigate();
 
@@ -76,9 +77,10 @@ function GrievanceDetail() {
 
   useEffect(() => {
     const fetchGrievanceDetails = async () => {
+      setLoading(true);
       try {
         const response = await apiClient.get(
-          `http://localhost:7091/api/Grievance/GetGrievanceById?id=${id}`,
+          `/Grievance/GetGrievanceById?id=${id}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -91,15 +93,19 @@ function GrievanceDetail() {
           "Failed to fetch grievance:",
           error.response?.data?.message || error.message
         );
+      } finally {
+        setLoading(false);
       }
     };
     fetchGrievanceDetails();
   }, [id, auth]);
 
   const handleAssignSolver = async (solverId) => {
+    setLoading(true);
+
     try {
       await apiClient.post(
-        `http://localhost:7091/api/Admin/AssignOpenGrievances`,
+        `/Admin/AssignOpenGrievances`,
         { grievanceId: id, solverId },
         {
           headers: {
@@ -120,10 +126,14 @@ function GrievanceDetail() {
         "Failed to assign solver:",
         error.response?.data?.message || error.message
       );
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleProvideRating = async () => {
+    setLoading(true);
+
     try {
       const response = await apiClient.post(
         `/Ratings/ProvideRating`,
@@ -148,10 +158,14 @@ function GrievanceDetail() {
         "Failed to submit rating:",
         error.response?.data?.message || error.message
       );
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleResolveGrievance = async () => {
+    setLoading(true);
+
     try {
       const response = await apiClient.put(
         `/Grievance/ResolveGrievance?id=${id}`,
@@ -173,13 +187,17 @@ function GrievanceDetail() {
         "Resolving Grievance error :",
         error.response?.data?.message || error.message
       );
+    } finally {
+      setLoading(false);
     }
   };
 
   const closeGrievance = async (force) => {
+    setLoading(true);
+
     try {
       await apiClient.put(
-        `http://localhost:7091/api/Grievance/CloseGrievance`,
+        `/Grievance/CloseGrievance`,
         {
           grievanceId: id,
           forceClose: force,
@@ -222,13 +240,17 @@ function GrievanceDetail() {
         "Closing Grievance error :",
         error.response?.data?.message || error.message
       );
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleEscalateGrievance = async (reason) => {
+    setLoading(true);
+
     try {
       await apiClient.post(
-        `http://localhost:7091/api/Grievance/EscalateGrievance`,
+        `/Grievance/EscalateGrievance`,
         { grievanceId: id, reason: reason },
         {
           headers: {
@@ -245,6 +267,8 @@ function GrievanceDetail() {
         "Failed to escalate grievance:",
         error.response?.data?.message || error.message
       );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -268,6 +292,12 @@ function GrievanceDetail() {
 
   const handleProvideSolution = () => {
     setShowSolutionPopup(true);
+  };
+  const handlesolverdetail = () => {
+    navigate(`/solvers/${grievance.solverId}`);
+  };
+  const handleemployeedetail = () => {
+    navigate(`/employees/${grievance.employeeId}`);
   };
 
   return (
@@ -311,150 +341,184 @@ function GrievanceDetail() {
             onSubmit={handleProvideRating}
           />
         )}
-        <div className="grievance-detail-card">
-          {/* Existing GrievanceDetail content */}
-          <div className="employee-info">
-            <div className="employee-image">
-              {grievance.employeeImage !== "string" ? (
-                <img src={grievance.employeeImage} alt="" />
-              ) : (
-                <FaUserCircle />
-              )}
-            </div>
-            <div className="employee-name">{grievance.employeeName}</div>
+        {loading ? (
+          <div className="grievance-detail-loader">
+            <PacmanLoader
+              color="#007bff"
+              cssOverride={{}}
+              loading
+              margin={0}
+              speedMultiplier={1}
+            />
           </div>
-          <div className="grievanceid">
-            GrievanceId : <span>{grievance.grievanceId}</span>
-          </div>
-          <div className="grievance-title">{grievance.title}</div>
-          <div className="date-solver">
-            <div className="date-created">
-              Raised on {formatDate(grievance.dateRaised)}
-            </div>
-            <div className="solver-div">
-              {grievance.solverId != null ? (
-                <>
-                  <p>SolverId : {grievance.solverId}</p>
-                  <p>SolverName : {grievance.solverName}</p>
-                </>
-              ) : (
-                <>Solver : Not Assigned</>
-              )}
-            </div>
-          </div>
-          <div className="grievance-detail-description">
-            <p>{grievance.description}</p>
-          </div>
-          <div className="status-type">
-            <div className="status">
-              <p>
-                Status : <span>{grievance.status}</span>
-              </p>
-            </div>
-            <div className="type">
-              <div className="priority">Priority : {grievance.priority}</div>
-
-              <p>
-                Type : <span>{grievance.type}</span>
-              </p>
-            </div>
-          </div>
-          {grievance.documentUrls.length != 0 && (
-            <>
-              <p className="attached-documents">Attached Documents*</p>
-              <div className="document-container">
-                {grievance.documentUrls.map((document) => {
-                  return (
-                    <a
-                      key={document}
-                      className="document"
-                      href={document}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {documentname(document)}
-                      <IoMdDownload />
-                    </a>
-                  );
-                })}
+        ) : (
+          <div className="grievance-detail-card">
+            {/* Existing GrievanceDetail content */}
+            <div className="employee-info">
+              <div className="employee-image">
+                {grievance.employeeImage !== "DefaultImage" ? (
+                  <img src={grievance.employeeImage} alt="" />
+                ) : (
+                  <FaUserCircle />
+                )}
               </div>
-            </>
-          )}
+              <div className="employee-name">
+                {" "}
+                {auth?.user?.role === "Solver" ? (
+                  <a onClick={handleemployeedetail}>{grievance.employeeName}</a>
+                ) : (
+                  <>{grievance.employeeName}</>
+                )}
+              </div>
+            </div>
+            <div className="grievanceid">
+              GrievanceId : <span>{grievance.grievanceId}</span>
+            </div>
+            <div className="grievance-title">{grievance.title}</div>
+            <div className="date-solver">
+              <div className="date-created">
+                Raised on {formatDate(grievance.dateRaised)}
+              </div>
+              <div className="solver-div">
+                {grievance.solverId != null ? (
+                  <>
+                    <p>SolverId : {grievance.solverId}</p>
+                    <p>
+                      SolverName :{" "}
+                      {auth?.user?.role === "Employee" ? (
+                        <a
+                          style={{
+                            textDecoration: "underline",
+                          }}
+                          onClick={handlesolverdetail}
+                        >
+                          {grievance.solverName}
+                        </a>
+                      ) : (
+                        <>{grievance.solverName}</>
+                      )}
+                    </p>
+                  </>
+                ) : (
+                  <>Solver : Not Assigned</>
+                )}
+              </div>
+            </div>
+            <div className="grievance-detail-description">
+              <p>{grievance.description}</p>
+            </div>
+            <div className="status-type">
+              <div className="status">
+                <p>
+                  Status : <span>{grievance.status}</span>
+                </p>
+              </div>
+              <div className="type">
+                <div className="priority">Priority : {grievance.priority}</div>
 
-          <div className="grievance-action-buttons">
-            <button
-              onClick={() => navigate("/dashboard")}
-              className="gbtn go-dashboard"
-            >
-              <FaAngleLeft /> Go To Dashboard
-            </button>
-            {(grievance.status === "Open" ||
-              (grievance.status === "Escalated" &&
-                auth.user.role === "Admin")) && (
-              <button
-                className="gbtn assign-solver"
-                onClick={() => setShowPopup(true)}
-              >
-                Assign Solver
-              </button>
+                <p>
+                  Type : <span>{grievance.type}</span>
+                </p>
+              </div>
+            </div>
+            {grievance.documentUrls.length != 0 && (
+              <>
+                <p className="attached-documents">Attached Documents*</p>
+                <div className="document-container">
+                  {grievance.documentUrls.map((document) => {
+                    return (
+                      <a
+                        key={document}
+                        className="document"
+                        href={document}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {documentname(document)}
+                        <IoMdDownload />
+                      </a>
+                    );
+                  })}
+                </div>
+              </>
             )}
-            <button
-              className="gbtn view-history"
-              onClick={viewGrievanceHistory}
-            >
-              View Grievance History
-            </button>
-            {auth.user.role === "Admin" && grievance.status != "Closed" && (
+
+            <div className="grievance-action-buttons">
               <button
-                className="gbtn close-grievance"
-                onClick={() => closeGrievance(false)}
+                onClick={() => navigate("/dashboard")}
+                className="gbtn go-dashboard"
               >
-                Close Grievance
+                <FaAngleLeft /> Go To Dashboard
               </button>
-            )}
-            {auth.user.role === "Solver" &&
-              grievance.status != "Resolved" &&
-              grievance.status != "Closed" &&
-              grievance.status != "Escalated" && (
+              {(grievance.status === "Open" ||
+                (grievance.status === "Escalated" &&
+                  auth.user.role === "Admin")) && (
                 <button
                   className="gbtn assign-solver"
-                  onClick={handleProvideSolution}
+                  onClick={() => setShowPopup(true)}
                 >
-                  Provide Solution
+                  Assign Solver
                 </button>
               )}
-            {auth.user.role === "Solver" &&
-              grievance.status != "Resolved" &&
-              grievance.status != "Closed" &&
-              grievance.status != "Escalated" && (
-                <button
-                  className="gbtn resolve"
-                  onClick={() => setShowConfirmationPopup(true)}
-                >
-                  Resolve Grievance
-                </button>
-              )}
-            {auth.user.role === "Solver" &&
-              grievance.status != "Resolved" &&
-              grievance.status != "Closed" &&
-              grievance.status != "Escalated" && (
-                <button
-                  className="gbtn escalate"
-                  onClick={() => setShowEscalatePopup(true)}
-                >
-                  Escalate Grievance
-                </button>
-              )}
-            {grievance.status === "Closed" && auth.user.role === "Employee" && (
               <button
-                className="gbtn rate-solver"
-                onClick={() => setShowRatingPopup(true)}
+                className="gbtn view-history"
+                onClick={viewGrievanceHistory}
               >
-                Rate Solver
+                View Grievance History
               </button>
-            )}
+              {auth.user.role === "Admin" && grievance.status != "Closed" && (
+                <button
+                  className="gbtn close-grievance"
+                  onClick={() => closeGrievance(false)}
+                >
+                  Close Grievance
+                </button>
+              )}
+              {auth.user.role === "Solver" &&
+                grievance.status != "Resolved" &&
+                grievance.status != "Closed" &&
+                grievance.status != "Escalated" && (
+                  <button
+                    className="gbtn assign-solver"
+                    onClick={handleProvideSolution}
+                  >
+                    Provide Solution
+                  </button>
+                )}
+              {auth.user.role === "Solver" &&
+                grievance.status != "Resolved" &&
+                grievance.status != "Closed" &&
+                grievance.status != "Escalated" && (
+                  <button
+                    className="gbtn resolve"
+                    onClick={() => setShowConfirmationPopup(true)}
+                  >
+                    Resolve Grievance
+                  </button>
+                )}
+              {auth.user.role === "Solver" &&
+                grievance.status != "Resolved" &&
+                grievance.status != "Closed" &&
+                grievance.status != "Escalated" && (
+                  <button
+                    className="gbtn escalate"
+                    onClick={() => setShowEscalatePopup(true)}
+                  >
+                    Escalate Grievance
+                  </button>
+                )}
+              {grievance.status === "Closed" &&
+                auth.user.role === "Employee" && (
+                  <button
+                    className="gbtn rate-solver"
+                    onClick={() => setShowRatingPopup(true)}
+                  >
+                    Rate Solver
+                  </button>
+                )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
       <ToastContainer />
     </>

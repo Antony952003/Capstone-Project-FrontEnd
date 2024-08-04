@@ -15,13 +15,26 @@ function EscalateGrievancePopup({ onClose, onConfirm }) {
       <div className="escalate-popup-content">
         <h3>Confirm Escalation</h3>
         <textarea
+          style={{
+            padding: "10px",
+            outline: "none",
+          }}
           value={reason}
           onChange={(e) => setReason(e.target.value)}
           placeholder="Enter reason for escalation"
           rows="4"
         ></textarea>
         <div className="escalate-popup-buttons">
-          <button onClick={handleConfirm} className="confirm-button">
+          <button
+            onClick={handleConfirm}
+            style={{
+              padding: "10px",
+              background: "var(--blue)",
+              borderRadius: "8px",
+              border: "none",
+              cursor: "pointer",
+            }}
+          >
             Confirm
           </button>
           <button onClick={onClose} className="cancel-button">
