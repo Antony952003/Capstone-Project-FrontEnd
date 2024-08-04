@@ -2,7 +2,9 @@ import axios from "axios";
 
 const apiClient = axios.create({
   // baseURL: "http://localhost:7091/api",
-  baseURL: "http://20.3.137.9:3004/api",
+  // baseURL: "http://20.3.137.9:3004/api",
+  baseURL:
+    "https://ajgrievanceservice-f4bdhaghb2bngbbw.westus2-01.azurewebsites.net/api",
 });
 
 apiClient.interceptors.request.use(
