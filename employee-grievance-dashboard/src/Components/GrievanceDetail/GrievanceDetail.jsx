@@ -177,9 +177,13 @@ function GrievanceDetail() {
         }
       );
       toast.success(`Grievance id : ${id} has been resolved successfully !!`);
-      setTimeout(() => {
-        location.reload();
-      }, 4000);
+      // setTimeout(() => {
+      //   location.reload();
+      // }, 4000);
+      setGrievance((prevGrievance) => ({
+        ...prevGrievance,
+        status: "Resolved",
+      }));
       setShowConfirmationPopup(false);
     } catch (error) {
       toast.error(error.response?.data?.message || error.message);
@@ -209,7 +213,10 @@ function GrievanceDetail() {
         }
       );
       toast.success(`Grievance id : ${id} has been closed successfully !!`);
-      location.reload();
+      setGrievance((prevGrievance) => ({
+        ...prevGrievance,
+        status: "Closed",
+      }));
     } catch (error) {
       if (!force && grievance.status != "Closed") {
         toast.error(
